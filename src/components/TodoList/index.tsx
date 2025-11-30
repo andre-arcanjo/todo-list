@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { themeConfig } from "../../contexts/theme";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import type { Todo } from "../../components/hooks/useTodo";
-import IconCheck from '../../../public/images/icon-check.svg';
-import IconCross from '../../../public/images/icon-cross.svg'
+import IconCheck from '/images/icon-check.svg';
+import IconCross from '/images/icon-cross.svg'
 
 interface TodoListProps {
   todoList: Todo[],

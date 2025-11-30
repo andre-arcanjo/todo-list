@@ -1,5 +1,5 @@
-import IconSun from '../../public/images/icon-sun.svg';
-import MoonIcon from '../../public/images/icon-moon.svg';
+import IconSun from '/images/icon-sun.svg';
+import MoonIcon from '/images/icon-moon.svg';
 
 const themeConfig = {
     light: {
