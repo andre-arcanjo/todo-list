@@ -1,75 +1,91 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from 'react';
 
 export interface Todo {
-    id: number;
-    text: string;
-    completed: boolean;
-};
+  name: string;
+  isCompleted: boolean;
+}
 
 const useTodo = () => {
+  const todoInitial = async () => {
+    const tarefasAPI = await fetch('http://localhost:3000/tasks');
+    const response = await tarefasAPI.json();
+    return response;
+  };
 
-    const [todoList, setTodoList] = useState<Todo[]>([]);
-    const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+  const [todoList, setTodoList] = useState<Todo[]>([]);
 
-    const addTodo = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+  useEffect(() => {
+    const loadTodos = async () => {
+      const data = await todoInitial();
+      setTodoList(data.data);
+    };
 
-        const formData = new FormData(e.currentTarget);
-        const todoItem = formData.get('todo') as string;
+    loadTodos();
+  }, []);
 
-        if (!todoItem.trim()) return;
+  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
-        setTodoList(prev => [...prev, {
-            id: Date.now(),
-            text: todoItem,
-            completed: false
-        }]);
+  const addTodo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-        e.currentTarget.reset();
+    const formData = new FormData(e.currentTarget);
+    const todoItem = formData.get('todo') as string;
 
-        setFilter('all');
-    }
+    if (!todoItem.trim()) return;
 
-    const toggleTodoCompleted = (id: number) => {
-        const newTodoList = todoList.map(todo => {
-            if (id === todo.id) {
-                const completed = !todo.completed;
+    setTodoList((prev) => [
+      ...prev,
+      {
+        name: todoItem,
+        isCompleted: false,
+      },
+    ]);
 
-                return {
-                    ...todo,
-                    completed,
-                };
-            }
+    e.currentTarget.reset();
 
-            return todo;
-        });
+    setFilter('all');
+  };
 
-        setTodoList(newTodoList);
-    }
+  const toggleTodoCompleted = (name: string) => {
+    const newTodoList = todoList.map((todo) => {
+      if (name === todo.name) {
+        const completed = !todo.isCompleted;
 
-    const filteredTodos = todoList.filter(todo => {
-        if (filter === 'active') return !todo.completed
-        if (filter === 'completed') return todo.completed
-        return true
+        return {
+          ...todo,
+          completed,
+        };
+      }
+
+      return todo;
     });
 
-    const clearCompleted = () => {
-        setTodoList((prev) => prev.filter((todo) => !todo.completed));
-    };
+    setTodoList(newTodoList);
+  };
 
-    const removeTask = (id: number) => {
-        setTodoList((prev) => prev.filter(todo => todo.id !== id));
-    }
+  const filteredTodos = todoList.filter((todo) => {
+    if (filter === 'active') return !todo.isCompleted;
+    if (filter === 'completed') return todo.isCompleted;
+    return true;
+  });
 
-    return {
-        addTodo,
-        toggleTodoCompleted,
-        filteredTodos,
-        setFilter,
-        filter,
-        clearCompleted,
-        removeTask
-    };
-}
+  const clearCompleted = () => {
+    setTodoList((prev) => prev.filter((todo) => !todo.isCompleted));
+  };
+
+  const removeTask = (name: string) => {
+    setTodoList((prev) => prev.filter((todo) => todo.name !== name));
+  };
+
+  return {
+    addTodo,
+    toggleTodoCompleted,
+    filteredTodos,
+    setFilter,
+    filter,
+    clearCompleted,
+    removeTask,
+  };
+};
 
 export { useTodo };
