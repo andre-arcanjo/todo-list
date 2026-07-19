@@ -119,7 +119,7 @@ const useTodo = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: { id }
+          id: { id },
         }),
       });
       if (!response.ok) {
@@ -132,8 +132,25 @@ const useTodo = () => {
     }
   };
 
-  const clearCompleted = () => {
-    setTodoList((prev) => prev.filter((todo) => !todo.isCompleted));
+  const deleteCompletedTasks = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/tasks/completed`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          isCompleted: true
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Erro ao deletar tarefas completas');
+      }
+      const data = await fetchTasks();
+      setTodoList(data.data);
+    } catch (error) {
+      console.error('Erro ao deletar tarefas completas');
+    }
   };
 
   return {
@@ -142,7 +159,7 @@ const useTodo = () => {
     filteredTodos,
     setFilter,
     filter,
-    clearCompleted,
+    deleteCompletedTasks,
     deleteTask,
   };
 };

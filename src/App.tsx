@@ -6,13 +6,13 @@ import { useTodo } from "./components/hooks/useTodo";
 
 function App() {
 
-  const { addTodo, filteredTodos, putTask, setFilter, filter, clearCompleted, deleteTask } = useTodo();
+  const { addTodo, filteredTodos, putTask, setFilter, filter, deleteCompletedTasks, deleteTask } = useTodo();
 
   return (
     <TodoContainer>
       <TodoHeader />
       <TodoForm addTodo={addTodo}></TodoForm>
-      <TodoList todoList={filteredTodos} toggleTodoCompleted={putTask} setFilter={setFilter} filter={filter} clearCompleted={clearCompleted} removeTask={deleteTask}/>
+      <TodoList todoList={filteredTodos} toggleTodoCompleted={putTask} setFilter={setFilter} filter={filter} clearCompleted={deleteCompletedTasks} removeTask={deleteTask}/>
     </TodoContainer>
   )
 }
