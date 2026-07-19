@@ -23,10 +23,10 @@ const TodoList = ({ todoList, toggleTodoCompleted, setFilter, filter, clearCompl
       <div className={`${themeConfig[theme].todo.backgroundColor} rounded-md`}>
         <ul>
           {todoList.map((todo) => (
-            <li className={`p-6 border-b ${themeConfig[theme].todo.borderColor}`} key={todo.name}>
+            <li className={`p-6 border-b ${themeConfig[theme].todo.borderColor}`} key={todo.id}>
               <div className="flex items-center gap-4">
                 <span className="h-6 w-6 rounded-full hover:bg-linear-to-r hover:from-check-background-start hover:to-check-background-end hover:p-px">
-                  <button onClick={() => toggleTodoCompleted(todo.name)} className={`w-full h-full border ${themeConfig[theme].todo.borderColor} rounded-full cursor-pointer ${themeConfig[theme].todo.backgroundColor} ${todo.isCompleted ? 'bg-linear-to-r from-check-background-start to-check-background-end' : ''}`}>
+                  <button onClick={() => toggleTodoCompleted(todo.id)} className={`w-full h-full border ${themeConfig[theme].todo.borderColor} rounded-full cursor-pointer ${themeConfig[theme].todo.backgroundColor} ${todo.isCompleted ? 'bg-linear-to-r from-check-background-start to-check-background-end' : ''}`}>
                     {todo.isCompleted && <img src={IconCheck} alt="Icone de check" className="h-2 w-2 m-auto" />}
                   </button>
                 </span>

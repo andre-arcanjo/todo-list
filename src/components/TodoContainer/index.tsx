@@ -14,7 +14,7 @@ const TodoContainer = ({children}: TodoContainerProps) => {
         <main className={`min-h-screen ${themeConfig[theme].layout.backgroundColor}`
         }>
             <div className={`${themeConfig[theme].layout.heroClass} h-80 bg-cover bg-center`}></div>
-            <div className="max-w-[43.75rem] m-auto px-8 pb-12 -mt-52">{children}</div>
+            <div className="max-w-175 m-auto px-8 pb-12 -mt-52">{children}</div>
         </main>
     )
 }

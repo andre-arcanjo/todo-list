@@ -1,66 +1,108 @@
 import { useEffect, useState, type FormEvent } from 'react';
 
 export interface Todo {
+  id: string;
   name: string;
   isCompleted: boolean;
 }
 
 const useTodo = () => {
-  const todoInitial = async () => {
-    const tarefasAPI = await fetch('http://localhost:3000/tasks');
-    const response = await tarefasAPI.json();
-    return response;
-  };
-
   const [todoList, setTodoList] = useState<Todo[]>([]);
+  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+
+  // buscar todas as tarefas
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/tasks');
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar as tarefas.');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Erro ao buscar tarefas.');
+      throw error;
+    }
+  };
 
   useEffect(() => {
     const loadTodos = async () => {
-      const data = await todoInitial();
-      setTodoList(data.data);
+      try {
+        const data = await fetchTasks();
+        setTodoList(data.data);
+      } catch (error) {
+        console.error('Erro ao carregar tarefas');
+      }
     };
 
     loadTodos();
   }, []);
 
-  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
-
-  const addTodo = (e: FormEvent<HTMLFormElement>) => {
+  // adicionar tarefa
+  const addTodo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+
+    const formData = new FormData(form);
     const todoItem = formData.get('todo') as string;
 
     if (!todoItem.trim()) return;
 
-    setTodoList((prev) => [
-      ...prev,
-      {
-        name: todoItem,
-        isCompleted: false,
-      },
-    ]);
+    try {
+      const response = await fetch('http://localhost:3000/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: todoItem,
+          isCompleted: false,
+        }),
+      });
 
-    e.currentTarget.reset();
-
-    setFilter('all');
-  };
-
-  const toggleTodoCompleted = (name: string) => {
-    const newTodoList = todoList.map((todo) => {
-      if (name === todo.name) {
-        const completed = !todo.isCompleted;
-
-        return {
-          ...todo,
-          completed,
-        };
+      if (!response.ok) {
+        throw new Error('Erro ao criar tarefa');
       }
 
-      return todo;
-    });
+      const data = await fetchTasks();
+      setTodoList(data.data);
 
-    setTodoList(newTodoList);
+      form.reset();
+      setFilter('all');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // alterar status da tarefa
+  const putTask = async (id: string) => {
+    try {
+      const task = todoList.find((t) => t.id === id);
+      if (!task) return;
+
+      const updateStatus = !task.isCompleted;
+
+      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          isCompleted: updateStatus,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Erro ao atualizar tarefa');
+      }
+
+      const data = await fetchTasks();
+      setTodoList(data.data);
+    } catch (error) {
+      console.error('Erro ao alterar status da tarefa');
+    }
   };
 
   const filteredTodos = todoList.filter((todo) => {
@@ -79,7 +121,7 @@ const useTodo = () => {
 
   return {
     addTodo,
-    toggleTodoCompleted,
+    putTask,
     filteredTodos,
     setFilter,
     filter,
