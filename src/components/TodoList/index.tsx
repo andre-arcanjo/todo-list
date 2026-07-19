@@ -32,7 +32,7 @@ const TodoList = ({ todoList, toggleTodoCompleted, setFilter, filter, clearCompl
                 </span>
                 <div className=" w-full flex justify-between">
                 <p className={`${themeConfig[theme].todo.textColor} ${todo.isCompleted ? 'line-through opacity-50' : ''}`}>{todo.name}</p>
-                <button onClick={() => removeTask(todo.name)} className="cursor-pointer">
+                <button onClick={() => removeTask(todo.id)} className="cursor-pointer">
                   <img src={IconCross} alt="Remover tarefa" />
                 </button>
                 </div>

@@ -111,12 +111,29 @@ const useTodo = () => {
     return true;
   });
 
-  const clearCompleted = () => {
-    setTodoList((prev) => prev.filter((todo) => !todo.isCompleted));
+  const deleteTask = async (id: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: { id }
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Erro ao deletar tarefa');
+      }
+      const data = await fetchTasks();
+      setTodoList(data.data);
+    } catch (error) {
+      console.error('Erro ao deletar tarefa');
+    }
   };
 
-  const removeTask = (name: string) => {
-    setTodoList((prev) => prev.filter((todo) => todo.name !== name));
+  const clearCompleted = () => {
+    setTodoList((prev) => prev.filter((todo) => !todo.isCompleted));
   };
 
   return {
@@ -126,7 +143,7 @@ const useTodo = () => {
     setFilter,
     filter,
     clearCompleted,
-    removeTask,
+    deleteTask,
   };
 };
 
