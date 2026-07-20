@@ -1,16 +1,15 @@
 import { useEffect, useState, type FormEvent } from 'react';
 
-export interface Todo {
+export interface Task {
   id: string;
   name: string;
   isCompleted: boolean;
 }
 
-const useTodo = () => {
-  const [todoList, setTodoList] = useState<Todo[]>([]);
+const useTask = () => {
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
-  // buscar todas as tarefas
   const fetchTasks = async () => {
     try {
       const response = await fetch('http://localhost:3000/tasks');
@@ -22,34 +21,33 @@ const useTodo = () => {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Erro ao buscar tarefas.');
+      console.error('Erro ao buscar tarefas.', error);
       throw error;
     }
   };
 
   useEffect(() => {
-    const loadTodos = async () => {
+    const loadTasks = async () => {
       try {
         const data = await fetchTasks();
-        setTodoList(data.data);
+        setTasks(data.data);
       } catch (error) {
-        console.error('Erro ao carregar tarefas');
+        console.error('Erro ao carregar tarefas', error);
       }
     };
 
-    loadTodos();
+    loadTasks();
   }, []);
 
-  // adicionar tarefa
-  const addTodo = async (e: FormEvent<HTMLFormElement>) => {
+  const createTask = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.currentTarget;
 
     const formData = new FormData(form);
-    const todoItem = formData.get('todo') as string;
+    const taskName = formData.get('todo') as string;
 
-    if (!todoItem.trim()) return;
+    if (!taskName.trim()) return;
 
     try {
       const response = await fetch('http://localhost:3000/tasks', {
@@ -58,7 +56,7 @@ const useTodo = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: todoItem,
+          name: taskName,
           isCompleted: false,
         }),
       });
@@ -68,7 +66,7 @@ const useTodo = () => {
       }
 
       const data = await fetchTasks();
-      setTodoList(data.data);
+      setTasks(data.data);
 
       form.reset();
       setFilter('all');
@@ -77,10 +75,9 @@ const useTodo = () => {
     }
   };
 
-  // alterar status da tarefa
-  const putTask = async (id: string) => {
+  const toggleTaskCompleted = async (id: string) => {
     try {
-      const task = todoList.find((t) => t.id === id);
+      const task = tasks.find((t) => t.id === id);
       if (!task) return;
 
       const updateStatus = !task.isCompleted;
@@ -99,15 +96,15 @@ const useTodo = () => {
       }
 
       const data = await fetchTasks();
-      setTodoList(data.data);
+      setTasks(data.data);
     } catch (error) {
-      console.error('Erro ao alterar status da tarefa');
+      console.error('Erro ao alterar status da tarefa', error);
     }
   };
 
-  const filteredTodos = todoList.filter((todo) => {
-    if (filter === 'active') return !todo.isCompleted;
-    if (filter === 'completed') return todo.isCompleted;
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === 'active') return !task.isCompleted;
+    if (filter === 'completed') return task.isCompleted;
     return true;
   });
 
@@ -119,16 +116,16 @@ const useTodo = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: { id },
+          id: id,
         }),
       });
       if (!response.ok) {
         throw new Error('Erro ao deletar tarefa');
       }
       const data = await fetchTasks();
-      setTodoList(data.data);
+      setTasks(data.data);
     } catch (error) {
-      console.error('Erro ao deletar tarefa');
+      console.error('Erro ao deletar tarefa', error);
     }
   };
 
@@ -140,23 +137,23 @@ const useTodo = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          isCompleted: true
+          isCompleted: true,
         }),
       });
       if (!response.ok) {
         throw new Error('Erro ao deletar tarefas completas');
       }
       const data = await fetchTasks();
-      setTodoList(data.data);
+      setTasks(data.data);
     } catch (error) {
-      console.error('Erro ao deletar tarefas completas');
+      console.error('Erro ao deletar tarefas completas', error);
     }
   };
 
   return {
-    addTodo,
-    putTask,
-    filteredTodos,
+    createTask,
+    toggleTaskCompleted,
+    filteredTasks,
     setFilter,
     filter,
     deleteCompletedTasks,
@@ -164,4 +161,4 @@ const useTodo = () => {
   };
 };
 
-export { useTodo };
+export { useTask };
