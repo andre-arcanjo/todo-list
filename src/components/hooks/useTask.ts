@@ -1,10 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-
-export interface Task {
-  id: string;
-  name: string;
-  isCompleted: boolean;
-}
+import type { Task } from '../../types';
 
 const useTask = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -45,7 +40,7 @@ const useTask = () => {
     const form = e.currentTarget;
 
     const formData = new FormData(form);
-    const taskName = formData.get('todo') as string;
+    const taskName = formData.get('task') as string;
 
     if (!taskName.trim()) return;
 

@@ -1,18 +1,9 @@
 import { useContext } from "react";
 import { themeConfig } from "../../contexts/theme";
 import { ThemeContext } from "../../contexts/ThemeContext";
-import type { Todo } from "../hooks/useTask";
+import type { TodoListProps } from "../../types/index";
 import IconCheck from '/images/icon-check.svg';
 import IconCross from '/images/icon-cross.svg'
-
-interface TodoListProps {
-  todoList: Todo[],
-  toggleTodoCompleted: (id: string) => void,
-  setFilter: (filter: 'all' | 'active' | 'completed') => void,
-  filter: 'all' | 'active' | 'completed',
-  clearCompleted: () => void,
-  removeTask: (id: string) => void
-}
 
 const TodoList = ({ todoList, toggleTodoCompleted, setFilter, filter, clearCompleted, removeTask }: TodoListProps) => {
 

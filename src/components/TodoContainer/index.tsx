@@ -1,10 +1,7 @@
 import { useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { themeConfig } from "../../contexts/theme";
-
-interface TodoContainerProps {
-    children: React.ReactNode
-};
+import type { TodoContainerProps } from "../../types";
 
 const TodoContainer = ({children}: TodoContainerProps) => {
 
