@@ -5,6 +5,12 @@ const useTask = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === 'active') return !task.isCompleted;
+    if (filter === 'completed') return task.isCompleted;
+    return true;
+  });
+
   const fetchTasks = async () => {
     try {
       const response = await fetch('http://localhost:3000/tasks');
@@ -97,12 +103,6 @@ const useTask = () => {
     }
   };
 
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === 'active') return !task.isCompleted;
-    if (filter === 'completed') return task.isCompleted;
-    return true;
-  });
-
   const deleteTask = async (id: string) => {
     try {
       const response = await fetch(`http://localhost:3000/tasks/${id}`, {
@@ -146,13 +146,13 @@ const useTask = () => {
   };
 
   return {
+    filteredTasks,
+    filter,
+    setFilter,
     createTask,
     toggleTaskCompleted,
-    filteredTasks,
-    setFilter,
-    filter,
-    deleteCompletedTasks,
     deleteTask,
+    deleteCompletedTasks,
   };
 };
 
