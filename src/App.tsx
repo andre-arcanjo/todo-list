@@ -2,13 +2,13 @@ import { TodoForm } from './components/TodoForm';
 import { TodoHeader } from './components/TodoHeader';
 import { TodoList } from './components/TodoList';
 import { TodoContainer } from './components/TodoContainer';
-import { useTask } from './components/hooks/useTask';
+import { useTask } from './hooks/useTask';
 
 function App() {
   const {
     createTask,
     filteredTasks,
-    toggleTaskCompleted,
+    toggleTask,
     setFilter,
     filter,
     deleteCompletedTasks,
@@ -21,7 +21,7 @@ function App() {
       <TodoForm addTodo={createTask}></TodoForm>
       <TodoList
         todoList={filteredTasks}
-        toggleTodoCompleted={toggleTaskCompleted}
+        toggleTodoCompleted={toggleTask}
         setFilter={setFilter}
         filter={filter}
         clearCompleted={deleteCompletedTasks}
