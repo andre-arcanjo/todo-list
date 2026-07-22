@@ -1,4 +1,4 @@
-import { type FormEvent } from "react";
+import { type FormEvent } from 'react';
 
 export interface Task {
   id: string;
@@ -7,18 +7,18 @@ export interface Task {
 }
 
 export interface TodoInputProps {
-    addTodo: (e: FormEvent<HTMLFormElement>) => void;
-};
+  addTodo: (e: FormEvent<HTMLFormElement>) => void;
+}
 
 export interface TodoContainerProps {
-    children: React.ReactNode
-};
+  children: React.ReactNode;
+}
 
 export interface TodoListProps {
-  todoList: Task[],
-  toggleTodoCompleted: (id: string) => void,
-  setFilter: (filter: 'all' | 'active' | 'completed') => void,
-  filter: 'all' | 'active' | 'completed',
-  clearCompleted: () => void,
-  removeTask: (id: string) => void
+  todoList: Task[];
+  toggleTodoCompleted: (id: string) => void;
+  setFilter: (filter: 'all' | 'active' | 'completed') => void;
+  filter: 'all' | 'active' | 'completed';
+  clearCompleted: () => void;
+  removeTask: (id: string) => void;
 }
