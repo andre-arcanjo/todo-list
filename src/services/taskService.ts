@@ -1,7 +1,8 @@
 import type { Task, TasksAPIResponse } from '../types';
+import { API_BASE_URL } from './api';
 
 export const fetchTasks = async (): Promise<Task[]> => {
-  const response = await fetch('http://localhost:3000/tasks');
+  const response = await fetch(`${API_BASE_URL}/tasks`);
 
   if (!response.ok) {
     throw new Error('Erro ao buscar as tarefas.');
@@ -12,7 +13,7 @@ export const fetchTasks = async (): Promise<Task[]> => {
 };
 
 export const createTaskRequest = async (name: string) => {
-  const response = await fetch('http://localhost:3000/tasks', {
+  const response = await fetch(`${API_BASE_URL}/tasks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -29,7 +30,7 @@ export const createTaskRequest = async (name: string) => {
 };
 
 export const toggleTaskRequest = async (id: number, isCompleted: boolean) => {
-  const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ export const toggleTaskRequest = async (id: number, isCompleted: boolean) => {
 };
 
 export const deleteTaskRequest = async (id: number) => {
-  const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ export const deleteTaskRequest = async (id: number) => {
 };
 
 export const deleteCompletedTasksRequest = async () => {
-  const response = await fetch(`http://localhost:3000/tasks/completed`, {
+  const response = await fetch(`${API_BASE_URL}/tasks/completed`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
