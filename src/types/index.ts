@@ -28,5 +28,4 @@ export interface TodoListProps {
   setFilter: (filter: 'all' | 'active' | 'completed') => void;
   filter: 'all' | 'active' | 'completed';
   clearCompleted: () => void;
-  removeTask: (id: number) => void;
-}
+  removeTask: (id: number) => void;  errorMessage?: string | null;}

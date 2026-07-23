@@ -13,6 +13,11 @@ const themeConfig = {
       backgroundColor: 'bg-neutral-very-light-gray',
       borderColor: 'border-neutral-very-light-grayish-blue',
       textColor: 'text-neutral-very-dark-grayish-blue',
+      error: {
+        backgroundColor: 'bg-neutral-very-light-gray',
+        borderColor: 'border-neutral-very-light-grayish-blue',
+        textColor: 'text-neutral-dark-grayish-blue',
+      },
     },
     icon: MoonIcon,
   },
@@ -27,6 +32,11 @@ const themeConfig = {
       backgroundColor: 'bg-neutral-very-dark-desaturated-blue',
       borderColor: 'border-neutral-dark-grayish-blue',
       textColor: 'text-neutral-light-grayish-blue',
+      error: {
+        backgroundColor: 'bg-neutral-very-dark-desaturated-blue',
+        borderColor: 'border-neutral-dark-grayish-blue',
+        textColor: 'text-neutral-light-grayish-blue',
+      },
     },
     icon: IconSun,
   },

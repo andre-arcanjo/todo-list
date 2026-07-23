@@ -13,6 +13,7 @@ function App() {
     filter,
     deleteCompletedTasks,
     deleteTask,
+    error,
   } = useTask();
 
   return (
@@ -26,6 +27,7 @@ function App() {
         filter={filter}
         clearCompleted={deleteCompletedTasks}
         removeTask={deleteTask}
+        errorMessage={error}
       />
     </TodoContainer>
   );

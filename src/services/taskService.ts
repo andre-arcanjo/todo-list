@@ -42,7 +42,7 @@ export const toggleTaskRequest = async (id: number, isCompleted: boolean) => {
   }
 };
 
-export const deleteTaskRequest = async (id: string) => {
+export const deleteTaskRequest = async (id: number) => {
   const response = await fetch(`http://localhost:3000/tasks/${id}`, {
     method: 'DELETE',
     headers: {

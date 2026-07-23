@@ -11,6 +11,7 @@ import {
 const useTask = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+  const [error, setError] = useState<string | null>(null);
 
   const filteredTasks = tasks.filter((task) => {
     if (filter === 'active') return !task.isCompleted;
@@ -23,8 +24,12 @@ const useTask = () => {
       try {
         const data = await fetchTasks();
         setTasks(data);
+        setError(null);
       } catch (error) {
         console.error('Erro ao carregar tarefas', error);
+        setError(
+          'Não foi possível carregar as tarefas. Tente novamente mais tarde.',
+        );
       }
     };
 
@@ -45,11 +50,13 @@ const useTask = () => {
 
       const data = await fetchTasks();
       setTasks(data);
+      setError(null);
 
       form.reset();
       setFilter('all');
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao criar tarefa', error);
+      setError('Não foi possível criar a tarefa. Tente novamente.');
     }
   };
 
@@ -64,19 +71,23 @@ const useTask = () => {
 
       const data = await fetchTasks();
       setTasks(data);
+      setError(null);
     } catch (error) {
       console.error('Erro ao alterar status da tarefa', error);
+      setError('Não foi possível atualizar a tarefa. Tente novamente.');
     }
   };
 
-  const deleteTask = async (id: string) => {
+  const deleteTask = async (id: number) => {
     try {
       await deleteTaskRequest(id);
 
       const data = await fetchTasks();
       setTasks(data);
+      setError(null);
     } catch (error) {
       console.error('Erro ao deletar tarefa', error);
+      setError('Não foi possível excluir a tarefa. Tente novamente.');
     }
   };
 
@@ -86,8 +97,12 @@ const useTask = () => {
 
       const data = await fetchTasks();
       setTasks(data);
+      setError(null);
     } catch (error) {
       console.error('Erro ao deletar tarefas completas', error);
+      setError(
+        'Não foi possível excluir as tarefas completas. Tente novamente.',
+      );
     }
   };
 
@@ -99,6 +114,7 @@ const useTask = () => {
     toggleTask,
     deleteTask,
     deleteCompletedTasks,
+    error,
   };
 };
 

@@ -12,11 +12,19 @@ const TodoList = ({
   filter,
   clearCompleted,
   removeTask,
+  errorMessage,
 }: TodoListProps) => {
   const { theme } = useContext(ThemeContext);
 
   return (
     <>
+      {errorMessage ? (
+        <div
+          className={`mb-4 rounded-lg border px-4 py-3 text-sm ${themeConfig[theme].todo.error.backgroundColor} ${themeConfig[theme].todo.error.borderColor} ${themeConfig[theme].todo.error.textColor}`}
+        >
+          {errorMessage}
+        </div>
+      ) : null}
       <div className={`${themeConfig[theme].todo.backgroundColor} rounded-md`}>
         <ul>
           {todoList.map((todo) => (
