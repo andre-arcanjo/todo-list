@@ -22,7 +22,7 @@ const useTask = () => {
     const loadTasks = async () => {
       try {
         const data = await fetchTasks();
-        setTasks(data.data);
+        setTasks(data);
       } catch (error) {
         console.error('Erro ao carregar tarefas', error);
       }
@@ -44,7 +44,7 @@ const useTask = () => {
       await createTaskRequest(taskName);
 
       const data = await fetchTasks();
-      setTasks(data.data);
+      setTasks(data);
 
       form.reset();
       setFilter('all');
@@ -53,7 +53,7 @@ const useTask = () => {
     }
   };
 
-  const toggleTask = async (id: string) => {
+  const toggleTask = async (id: number) => {
     try {
       const task = tasks.find((t) => t.id === id);
       if (!task) return;
@@ -63,7 +63,7 @@ const useTask = () => {
       await toggleTaskRequest(id, updateStatus);
 
       const data = await fetchTasks();
-      setTasks(data.data);
+      setTasks(data);
     } catch (error) {
       console.error('Erro ao alterar status da tarefa', error);
     }
@@ -74,7 +74,7 @@ const useTask = () => {
       await deleteTaskRequest(id);
 
       const data = await fetchTasks();
-      setTasks(data.data);
+      setTasks(data);
     } catch (error) {
       console.error('Erro ao deletar tarefa', error);
     }
@@ -85,7 +85,7 @@ const useTask = () => {
       await deleteCompletedTasksRequest();
 
       const data = await fetchTasks();
-      setTasks(data.data);
+      setTasks(data);
     } catch (error) {
       console.error('Erro ao deletar tarefas completas', error);
     }

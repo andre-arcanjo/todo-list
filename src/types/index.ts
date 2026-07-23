@@ -1,9 +1,17 @@
 import { type FormEvent } from 'react';
 
 export interface Task {
-  id: string;
+  id: number;
   name: string;
   isCompleted: boolean;
+}
+
+export interface TasksAPIResponse {
+  data: Task[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }
 
 export interface TodoInputProps {

@@ -1,12 +1,17 @@
-export const fetchTasks = async () => {
+import type { Task, TasksAPIResponse } from '../types';
+
+export const fetchTasks = async (): Promise<Task[]> => {
   const response = await fetch('http://localhost:3000/tasks');
 
   if (!response.ok) {
     throw new Error('Erro ao buscar as tarefas.');
   }
 
-  return response.json();
+  const data: TasksAPIResponse = await response.json();
+  console.log(data.data)
+  return data.data;
 };
+
 
 export const createTaskRequest = async (name: string) => {
   const response = await fetch('http://localhost:3000/tasks', {
@@ -25,7 +30,7 @@ export const createTaskRequest = async (name: string) => {
   }
 };
 
-export const toggleTaskRequest = async (id: string, isCompleted: boolean) => {
+export const toggleTaskRequest = async (id: number, isCompleted: boolean) => {
   const response = await fetch(`http://localhost:3000/tasks/${id}`, {
     method: 'PUT',
     headers: {
