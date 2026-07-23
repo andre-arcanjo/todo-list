@@ -24,9 +24,9 @@ export interface TodoContainerProps {
 
 export interface TodoListProps {
   todoList: Task[];
-  toggleTodoCompleted: (id: string) => void;
+  toggleTodoCompleted: (id: number) => void;
   setFilter: (filter: 'all' | 'active' | 'completed') => void;
   filter: 'all' | 'active' | 'completed';
   clearCompleted: () => void;
-  removeTask: (id: string) => void;
+  removeTask: (id: number) => void;
 }
