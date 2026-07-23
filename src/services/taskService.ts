@@ -8,10 +8,8 @@ export const fetchTasks = async (): Promise<Task[]> => {
   }
 
   const data: TasksAPIResponse = await response.json();
-  console.log(data.data)
   return data.data;
 };
-
 
 export const createTaskRequest = async (name: string) => {
   const response = await fetch('http://localhost:3000/tasks', {
