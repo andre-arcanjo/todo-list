@@ -26,7 +26,6 @@ const useTask = () => {
         setTasks(data);
         setError(null);
       } catch (error) {
-        console.error('Erro ao carregar tarefas', error);
         setError(
           'Não foi possível carregar as tarefas. Tente novamente mais tarde.',
         );
@@ -55,7 +54,6 @@ const useTask = () => {
       form.reset();
       setFilter('all');
     } catch (error) {
-      console.error('Erro ao criar tarefa', error);
       setError('Não foi possível criar a tarefa. Tente novamente.');
     }
   };
@@ -73,7 +71,6 @@ const useTask = () => {
       setTasks(data);
       setError(null);
     } catch (error) {
-      console.error('Erro ao alterar status da tarefa', error);
       setError('Não foi possível atualizar a tarefa. Tente novamente.');
     }
   };
@@ -86,7 +83,6 @@ const useTask = () => {
       setTasks(data);
       setError(null);
     } catch (error) {
-      console.error('Erro ao deletar tarefa', error);
       setError('Não foi possível excluir a tarefa. Tente novamente.');
     }
   };
@@ -99,7 +95,6 @@ const useTask = () => {
       setTasks(data);
       setError(null);
     } catch (error) {
-      console.error('Erro ao deletar tarefas completas', error);
       setError(
         'Não foi possível excluir as tarefas completas. Tente novamente.',
       );
