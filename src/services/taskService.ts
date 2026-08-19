@@ -56,12 +56,6 @@ export const deleteTaskRequest = async (id: number) => {
 export const deleteCompletedTasksRequest = async () => {
   const response = await fetch(`${API_BASE_URL}/tasks/completed`, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      isCompleted: true,
-    }),
   });
 
   if (!response.ok) {
