@@ -46,12 +46,6 @@ export const toggleTaskRequest = async (id: number, isCompleted: boolean) => {
 export const deleteTaskRequest = async (id: number) => {
   const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      id: id,
-    }),
   });
 
   if (!response.ok) {
